@@ -1,4 +1,4 @@
-import 'package:invest_mobile/model/typePackage.dart';
+import 'package:invest_mobile/model/type_package.dart';
 import 'package:invest_mobile/model/user.dart';
 
 class Package {

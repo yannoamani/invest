@@ -1,18 +1,18 @@
 import 'dart:async';
 
-import 'package:invest_mobile/providers/loginInfo.dart';
+import 'package:invest_mobile/providers/login_info.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:invest_mobile/widget/notifCard.dart';
+import 'package:invest_mobile/widget/notif_card.dart';
 import 'package:invest_mobile/widget/profilcard.dart';
 import 'package:provider/provider.dart';
 import 'dart:math' as math;
 import '../routes/route.dart';
 import '../util/method.dart';
-import 'customButton.dart';
+import 'custom_button.dart';
 
 class Profil extends StatelessWidget {
-  const Profil({Key? key}) : super(key: key);
+  const Profil({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -60,12 +60,12 @@ class Profil extends StatelessWidget {
                     child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          NotifCard(),
+                          const NotifCard(),
                           Text("MES INFORMATIONS",
                               style: customFonts(
                                   14, Colors.grey, FontWeight.bold)),
                           SizedBox(height: h * 0.01),
-                          ProfilCard(),
+                          const ProfilCard(),
                           _customBtn(h, "Modifier", Icons.edit, () {
                             Navigator.of(context)
                                 .pushNamed(MyRoute.profilDetail);
@@ -96,7 +96,7 @@ class Profil extends StatelessWidget {
                           SizedBox(height: h * 0.01),
                           _customBtn(h, "Deconnexion", Icons.logout, () {
                             context.read<LoginInfo>().logout().then((value) {
-                              Timer(Duration(seconds: 1), () {
+                              Timer(const Duration(seconds: 1), () {
                                 Navigator.of(context).pushNamedAndRemoveUntil(
                                     MyRoute.begin,
                                     (Route<dynamic> route) => false);
@@ -117,6 +117,9 @@ class Profil extends StatelessWidget {
           onPressed: () {
             tap();
           },
+          color: Colors.white,
+          minWidth: double.infinity,
+          height: h * 0.1,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -138,9 +141,6 @@ class Profil extends StatelessWidget {
                   ))
             ],
           ),
-          color: Colors.white,
-          minWidth: double.infinity,
-          height: h * 0.1,
         ),
       ),
     );

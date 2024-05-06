@@ -1,4 +1,4 @@
-import 'package:invest_mobile/providers/userProvider.dart';
+import 'package:invest_mobile/providers/user_provider.dart';
 import 'package:invest_mobile/util/method.dart';
 import 'package:invest_mobile/widget/home.dart';
 import 'package:invest_mobile/widget/list.dart';
@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({Key? key}) : super(key: key);
+  const HomePage({super.key});
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -22,7 +22,6 @@ class _HomePageState extends State<HomePage> {
   ];
   @override
   Widget build(BuildContext context) {
-    double h = MediaQuery.of(context).size.height;
     return Scaffold(
       body: screens[_currentIndex],
       bottomNavigationBar: BottomNavigationBar(
@@ -41,29 +40,27 @@ class _HomePageState extends State<HomePage> {
         },
         currentIndex: _currentIndex,
         items: [
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: "Accueil"),
-          BottomNavigationBarItem(
+          const BottomNavigationBarItem(
+              icon: Icon(Icons.home), label: "Accueil"),
+          const BottomNavigationBarItem(
               icon: Icon(Icons.list), label: "Souscription"),
           BottomNavigationBarItem(
               icon: Badge(
-                child: Icon(Icons.person),
                 isLabelVisible: Provider.of<UserProvider>(context)
-                                .investisseur
-                                .identity
-                                .length ==
-                            0 ||
+                            .investisseur
+                            .identity
+                            .isEmpty ||
                         Provider.of<UserProvider>(context)
-                                .investisseur
-                                .bankcard
-                                .length ==
-                            0 ||
+                            .investisseur
+                            .bankcard
+                            .isEmpty ||
                         Provider.of<UserProvider>(context)
-                                .investisseur
-                                .phone
-                                .length ==
-                            0
+                            .investisseur
+                            .phone
+                            .isEmpty
                     ? true
                     : false,
+                child: const Icon(Icons.person),
               ),
               label: "Mon compte"),
         ],

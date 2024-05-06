@@ -1,17 +1,17 @@
-import 'package:invest_mobile/providers/loginInfo.dart';
-import 'package:invest_mobile/providers/packProvider.dart';
+import 'package:invest_mobile/providers/login_info.dart';
+import 'package:invest_mobile/providers/pack_provider.dart';
 import 'package:invest_mobile/routes/route.dart';
 import 'package:invest_mobile/util/method.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:invest_mobile/widget/notifCard.dart';
+import 'package:invest_mobile/widget/notif_card.dart';
 import 'package:provider/provider.dart';
 
-import '../providers/detailsPack.dart';
+import '../providers/details_pack.dart';
 
 class Home extends StatefulWidget {
-  const Home({Key? key}) : super(key: key);
+  const Home({super.key});
 
   @override
   State<Home> createState() => _HomeState();
@@ -55,59 +55,55 @@ class _HomeState extends State<Home> {
             physics: const BouncingScrollPhysics(),
             slivers: [
               SliverToBoxAdapter(
-                child: Container(
-                  // padding: EdgeInsets.symmetric(horizontal: w * 0.04),
-                  child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        NotifCard(),
-                        SizedBox(height: h * 0.01),
-                        // RECHERCHE
-                        ClipRRect(
-                          borderRadius:
-                              BorderRadius.all(Radius.circular(h * 0.02)),
-                          child: Container(
-                            margin: EdgeInsets.symmetric(horizontal: w * 0.04),
-                            padding: EdgeInsets.all(h * 0.01),
-                            decoration:
-                                const BoxDecoration(color: Colors.white),
-                            child: TextFormField(
-                              keyboardType: TextInputType.text,
-                              style: customFonts(
-                                  17,
-                                  const Color.fromARGB(255, 83, 83, 83),
-                                  FontWeight.bold),
-                              decoration: InputDecoration(
-                                border: const UnderlineInputBorder(
-                                    borderSide: BorderSide.none,
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(5))),
-                                filled: true,
-                                fillColor:
-                                    const Color.fromARGB(255, 253, 253, 253),
-                                hintText: "rechercher...",
-                                hintStyle: customFonts(
-                                    17, Colors.grey, FontWeight.bold),
-                                suffixIcon: const Icon(
-                                  Icons.search,
-                                  size: 30,
-                                  color: Colors.grey,
-                                ),
+                child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const NotifCard(),
+                      SizedBox(height: h * 0.01),
+                      // RECHERCHE
+                      ClipRRect(
+                        borderRadius:
+                            BorderRadius.all(Radius.circular(h * 0.02)),
+                        child: Container(
+                          margin: EdgeInsets.symmetric(horizontal: w * 0.04),
+                          padding: EdgeInsets.all(h * 0.01),
+                          decoration: const BoxDecoration(color: Colors.white),
+                          child: TextFormField(
+                            keyboardType: TextInputType.text,
+                            style: customFonts(
+                                17,
+                                const Color.fromARGB(255, 83, 83, 83),
+                                FontWeight.bold),
+                            decoration: InputDecoration(
+                              border: const UnderlineInputBorder(
+                                  borderSide: BorderSide.none,
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(5))),
+                              filled: true,
+                              fillColor:
+                                  const Color.fromARGB(255, 253, 253, 253),
+                              hintText: "rechercher...",
+                              hintStyle:
+                                  customFonts(17, Colors.grey, FontWeight.bold),
+                              suffixIcon: const Icon(
+                                Icons.search,
+                                size: 30,
+                                color: Colors.grey,
                               ),
-                              cursorColor: Colors.grey,
                             ),
+                            cursorColor: Colors.grey,
                           ),
                         ),
-                        SizedBox(height: h * 0.02),
-                        // PACKAGES
-                        Padding(
-                            padding: EdgeInsets.symmetric(horizontal: w * 0.04),
-                            child: Text("Packages",
-                                style: customFonts(
-                                    20, Colors.black, FontWeight.w300))),
-                        SizedBox(height: h * 0.02)
-                      ]),
-                ),
+                      ),
+                      SizedBox(height: h * 0.02),
+                      // PACKAGES
+                      Padding(
+                          padding: EdgeInsets.symmetric(horizontal: w * 0.04),
+                          child: Text("Packages",
+                              style: customFonts(
+                                  20, Colors.black, FontWeight.w300))),
+                      SizedBox(height: h * 0.02)
+                    ]),
               ),
               value.isLoad
                   ? const SliverToBoxAdapter(
@@ -115,7 +111,7 @@ class _HomeState extends State<Home> {
                       color: Colors.black,
                       size: 45,
                     ))
-                  : value.pack.length == 0
+                  : value.pack.isEmpty
                       ? SliverToBoxAdapter(
                           child: Column(
                             children: [
@@ -140,7 +136,7 @@ class _HomeState extends State<Home> {
                                     context.read<PackProvider>().isLoad = true;
                                     context.read<PackProvider>().loadPack();
                                   },
-                                  icon: Icon(
+                                  icon: const Icon(
                                     Icons.refresh,
                                     size: 35,
                                     color: Colors.black,
@@ -219,7 +215,7 @@ Widget customCard(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Container(
-              margin: EdgeInsets.all(2),
+              margin: const EdgeInsets.all(2),
               constraints: BoxConstraints(
                 minHeight: h * 0.18,
                 minWidth: h * 0.2,
@@ -229,7 +225,7 @@ Widget customCard(
               decoration: BoxDecoration(
                   image: DecorationImage(
                       image: NetworkImage(
-                          'https://backend.invest-ci.com/public/' + img),
+                          'https://backend.invest-ci.com/public/$img'),
                       // AssetImage("images/image/img1.jpg"),
                       fit: BoxFit.cover),
                   borderRadius: BorderRadius.only(
@@ -255,7 +251,7 @@ Widget customCard(
                 ? Container(
                     // padding: EdgeInsets.only(top: h * 0.01),
                     alignment: Alignment.center,
-                    decoration: BoxDecoration(
+                    decoration: const BoxDecoration(
                         color: Colors.red,
                         borderRadius: BorderRadius.all(Radius.circular(10))),
                     child: Text('Pièce epuisé',

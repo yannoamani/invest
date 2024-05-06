@@ -3,11 +3,11 @@ import 'package:invest_mobile/util/method.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import '../providers/loginInfo.dart';
-import '../providers/userProvider.dart';
+import '../providers/login_info.dart';
+import '../providers/user_provider.dart';
 
 class Login extends StatefulWidget {
-  const Login({Key? key}) : super(key: key);
+  const Login({super.key});
 
   @override
   State<Login> createState() => _LoginState();
@@ -183,6 +183,9 @@ class _LoginState extends State<Login> {
                                                 });
                                               }
                                             },
+                                      color: Colors.black,
+                                      minWidth: double.infinity,
+                                      height: h * 0.1,
                                       child: value.buttonClick
                                           ? const SpinKitFadingCircle(
                                               color: Colors.white,
@@ -195,9 +198,6 @@ class _LoginState extends State<Login> {
                                                   Colors.white,
                                                   FontWeight.w200),
                                             ),
-                                      color: Colors.black,
-                                      minWidth: double.infinity,
-                                      height: h * 0.1,
                                     )),
                               )
                             ])),
@@ -263,17 +263,11 @@ class _LoginState extends State<Login> {
                           onPressed: () {
                             show = !show;
                           },
-                          icon: show
-                              ? Icon(
-                                  Icons.visibility,
-                                  size: 24,
-                                  color: Colors.grey,
-                                )
-                              : Icon(
-                                  Icons.visibility_off,
-                                  size: 24,
-                                  color: Colors.grey,
-                                ),
+                          icon: const Icon(
+                            Icons.visibility,
+                            size: 24,
+                            color: Colors.grey,
+                          ),
                         )
                       : null),
               cursorColor: Colors.grey,

@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
-import 'package:invest_mobile/providers/loginInfo.dart';
+import 'package:invest_mobile/providers/login_info.dart';
 import 'package:flutter/material.dart';
-import 'package:invest_mobile/providers/userProvider.dart';
+import 'package:invest_mobile/providers/user_provider.dart';
 import 'package:provider/provider.dart';
 import '../util/method.dart';
 import 'package:badges/badges.dart' as badges;
@@ -10,7 +10,7 @@ import 'package:image_picker/image_picker.dart';
 import 'dart:math';
 
 class ProfilCard extends StatefulWidget {
-  const ProfilCard({Key? key}) : super(key: key);
+  const ProfilCard({super.key});
 
   @override
   State<ProfilCard> createState() => _ProfilCardState();
@@ -24,7 +24,7 @@ class _ProfilCardState extends State<ProfilCard> {
 
     return Consumer<UserProvider>(builder: (context, value, _) {
       return Card(
-        child: Container(
+        child: SizedBox(
           height: h * 0.25,
           width: w,
           child: Row(
@@ -43,8 +43,9 @@ class _ProfilCardState extends State<ProfilCard> {
                       },
                       child: _imagePicker()),
                   position: badges.BadgePosition.bottomStart(),
-                  badgeStyle: badges.BadgeStyle(badgeColor: Colors.transparent),
-                  child: value.investisseur.picture.length != 0
+                  badgeStyle:
+                      const badges.BadgeStyle(badgeColor: Colors.transparent),
+                  child: value.investisseur.picture.isNotEmpty
                       ? Image.network(
                           "https://backend.invest-ci.com/public/${value.investisseur.picture}",
                           fit: BoxFit.fill,
@@ -70,7 +71,7 @@ class _ProfilCardState extends State<ProfilCard> {
                               _customText(value.investisseur.nom, 16),
                               _customText(value.investisseur.prenom, 16)
                             ]),
-                        Container(
+                        SizedBox(
                           width: 50,
                           height: 50,
                           child: Image.asset(
@@ -105,10 +106,10 @@ class _ProfilCardState extends State<ProfilCard> {
         width: 35,
         height: 35,
         margin: const EdgeInsets.all(10),
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
             color: Colors.black,
             borderRadius: BorderRadius.all(Radius.circular(50))),
-        child: Icon(
+        child: const Icon(
           Icons.camera_alt,
           size: 20,
           color: Colors.white,
@@ -131,15 +132,13 @@ class _ProfilCardState extends State<ProfilCard> {
     var user = Provider.of<UserProvider>(context, listen: false).investisseur;
     String url = "https://backend.invest-ci.com/api/update";
     try {
-      Uri uri = Uri.parse(url);
-
-      var body = Map<String, dynamic>();
+      var body = <String, dynamic>{};
       body['id'] = user.id;
       body['picture'] = await MultipartFile.fromFile(
           pictureImage!.path.toString(),
           filename:
               "profile_pics_user${Random().nextInt(100).toString()}${Random().nextInt(100).toString()}");
-      FormData formData = new FormData.fromMap(body);
+      FormData formData = FormData.fromMap(body);
       final dio = Dio();
 
       var response = await dio.post(
@@ -152,8 +151,10 @@ class _ProfilCardState extends State<ProfilCard> {
         ),
       );
       if (response.data['status']) {
+        // ignore: use_build_context_synchronously
         context.read<UserProvider>().investisseur.picture =
             response.data['data']['picture'];
+        // ignore: use_build_context_synchronously
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
             content: Text("Modifié avec succès",
                 style: customFonts(14, Colors.white, FontWeight.bold)),
@@ -161,6 +162,7 @@ class _ProfilCardState extends State<ProfilCard> {
             duration: const Duration(seconds: 1)));
         setState(() {});
       } else {
+        // ignore: use_build_context_synchronously
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
             content: Text(response.data['message'],
                 style: customFonts(14, Colors.white, FontWeight.bold)),
@@ -168,7 +170,6 @@ class _ProfilCardState extends State<ProfilCard> {
             duration: const Duration(seconds: 1)));
       }
     } catch (e) {
-      print(e);
       setState(() {
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
             content: Text("Erreur",

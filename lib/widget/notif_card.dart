@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:invest_mobile/providers/userProvider.dart';
+import 'package:invest_mobile/providers/user_provider.dart';
 import 'package:provider/provider.dart';
 
 class NotifCard extends StatefulWidget {
-  const NotifCard({Key? key}) : super(key: key);
+  const NotifCard({super.key});
 
   @override
   State<NotifCard> createState() => _NotifCardState();
@@ -14,19 +14,17 @@ class _NotifCardState extends State<NotifCard> {
 
   @override
   Widget build(BuildContext context) {
-    double h = MediaQuery.of(context).size.height;
     double w = MediaQuery.of(context).size.width;
     bool show =
-        Provider.of<UserProvider>(context).investisseur.identity.length == 0 ||
-            Provider.of<UserProvider>(context).investisseur.bankcard.length ==
-                0 ||
-            Provider.of<UserProvider>(context).investisseur.phone.length == 0;
+        Provider.of<UserProvider>(context).investisseur.identity.isEmpty ||
+            Provider.of<UserProvider>(context).investisseur.bankcard.isEmpty ||
+            Provider.of<UserProvider>(context).investisseur.phone.isEmpty;
     return show
         ? isOn
             ? Card(
                 elevation: 0,
-                color: Color.fromARGB(121, 171, 195, 247),
-                child: Container(
+                color: const Color.fromARGB(121, 171, 195, 247),
+                child: SizedBox(
                   width: w,
                   height: 70,
                   child: Column(
@@ -38,7 +36,7 @@ class _NotifCardState extends State<NotifCard> {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Icon(
+                              const Icon(
                                 Icons.warning_amber_rounded,
                                 size: 15,
                                 color: Color.fromARGB(255, 129, 28, 21),
@@ -49,7 +47,7 @@ class _NotifCardState extends State<NotifCard> {
                                       isOn = false;
                                     });
                                   },
-                                  child: Icon(
+                                  child: const Icon(
                                     Icons.cancel,
                                     size: 15,
                                   ))
@@ -59,7 +57,7 @@ class _NotifCardState extends State<NotifCard> {
                         children: [
                           SizedBox(
                             width: w * 0.95,
-                            child: Text(
+                            child: const Text(
                               "Pièce d'identité + Numéro de téléphone + Numéro de carte bancaire requis pour pouvoir effectuer des opérations. Allez dans Mon compte > Modifier pour les ajouter",
                               textAlign: TextAlign.center,
                               overflow: TextOverflow.clip,
@@ -71,7 +69,7 @@ class _NotifCardState extends State<NotifCard> {
                           )
                         ],
                       ),
-                      SizedBox(height: 5)
+                      const SizedBox(height: 5)
                     ],
                   ),
                 ),

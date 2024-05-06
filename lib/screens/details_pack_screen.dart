@@ -1,18 +1,19 @@
-import 'package:invest_mobile/providers/loginInfo.dart';
-import 'package:invest_mobile/providers/userProvider.dart';
+import 'package:invest_mobile/providers/login_info.dart';
+import 'package:invest_mobile/providers/user_provider.dart';
 import 'package:invest_mobile/util/method.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:provider/provider.dart';
 
-import '../providers/detailsPack.dart';
+import '../providers/details_pack.dart';
 
 class DetailsPack extends StatefulWidget {
-  const DetailsPack({Key? key}) : super(key: key);
-  _DetailsPack createState() => _DetailsPack();
+  const DetailsPack({super.key});
+  @override
+  State<DetailsPack> createState() => _DetailsPackState();
 }
 
-class _DetailsPack extends State<DetailsPack> {
+class _DetailsPackState extends State<DetailsPack> {
   String? _selectedQte;
   double count = 0;
   @override
@@ -23,6 +24,7 @@ class _DetailsPack extends State<DetailsPack> {
 
   void test() {}
 
+  @override
   Widget build(BuildContext context) {
     count = Provider.of<DetailsPackProv>(context).tranche != 0
         ? Provider.of<DetailsPackProv>(context).prodRestant /
@@ -31,9 +33,9 @@ class _DetailsPack extends State<DetailsPack> {
     double h = MediaQuery.of(context).size.height;
     double w = MediaQuery.of(context).size.width;
     String image = Provider.of<DetailsPackProv>(context).img;
-    final List<String> _fruits = [];
+    final List<String> fruits = [];
     for (var i = 0; i < count; i++) {
-      _fruits.add((Provider.of<DetailsPackProv>(context).tranche +
+      fruits.add((Provider.of<DetailsPackProv>(context).tranche +
               (i * Provider.of<DetailsPackProv>(context).tranche))
           .toString());
     }
@@ -52,7 +54,7 @@ class _DetailsPack extends State<DetailsPack> {
             decoration: BoxDecoration(
                 image: DecorationImage(
                     image: NetworkImage(
-                        'https://backend.invest-ci.com/public/' + image),
+                        'https://backend.invest-ci.com/public/$image'),
                     fit: BoxFit.cover)),
           ),
         ),
@@ -85,7 +87,7 @@ class _DetailsPack extends State<DetailsPack> {
                                 ? Colors.greenAccent
                                 : Colors.redAccent,
                             borderRadius:
-                                BorderRadius.all(Radius.circular(10))),
+                                const BorderRadius.all(Radius.circular(10))),
                         child: Text(
                             value.prodRestant != 0
                                 ? "Disponible"
@@ -103,7 +105,7 @@ class _DetailsPack extends State<DetailsPack> {
                         Text("Coût package:",
                             style:
                                 customFonts(20, Colors.grey, FontWeight.bold)),
-                        Text(value.cout.toString() + ' Fcfa',
+                        Text('${value.cout} Fcfa',
                             style:
                                 customFonts(20, Colors.grey, FontWeight.bold))
                       ]),
@@ -115,7 +117,7 @@ class _DetailsPack extends State<DetailsPack> {
                         Text("Gain:",
                             style:
                                 customFonts(20, Colors.grey, FontWeight.bold)),
-                        Text(value.gain.toString() + ' Fcfa',
+                        Text('${value.gain} Fcfa',
                             style:
                                 customFonts(20, Colors.grey, FontWeight.bold))
                       ]),
@@ -171,7 +173,7 @@ class _DetailsPack extends State<DetailsPack> {
                                   context.read<DetailsPackProv>().qte =
                                       _selectedQte;
                                 },
-                                items: _fruits
+                                items: fruits
                                     .map((fruit) => DropdownMenuItem<String>(
                                         value: fruit, child: Text(fruit)))
                                     .toList())
@@ -187,23 +189,20 @@ class _DetailsPack extends State<DetailsPack> {
                             child: MaterialButton(
                               onPressed: () {
                                 if (context
-                                            .read<UserProvider>()
-                                            .investisseur
-                                            .identity
-                                            .length ==
-                                        0 ||
+                                        .read<UserProvider>()
+                                        .investisseur
+                                        .identity
+                                        .isEmpty ||
                                     context
-                                            .read<UserProvider>()
-                                            .investisseur
-                                            .phone
-                                            .length ==
-                                        0 ||
+                                        .read<UserProvider>()
+                                        .investisseur
+                                        .phone
+                                        .isEmpty ||
                                     context
-                                            .read<UserProvider>()
-                                            .investisseur
-                                            .bankcard
-                                            .length ==
-                                        0) {
+                                        .read<UserProvider>()
+                                        .investisseur
+                                        .bankcard
+                                        .isEmpty) {
                                   ScaffoldMessenger.of(context).showSnackBar(
                                       SnackBar(
                                           content: Text(
@@ -251,6 +250,9 @@ class _DetailsPack extends State<DetailsPack> {
                                   });
                                 }
                               },
+                              color: Colors.black,
+                              minWidth: double.infinity,
+                              height: h * 0.1,
                               child: context
                                       .watch<DetailsPackProv>()
                                       .buttonClick
@@ -261,16 +263,13 @@ class _DetailsPack extends State<DetailsPack> {
                                   : Text("Souscrire",
                                       style: customFonts(
                                           17, Colors.white, FontWeight.w200)),
-                              color: Colors.black,
-                              minWidth: double.infinity,
-                              height: h * 0.1,
                             ),
                           ),
                         )
                       : Container(
                           padding: EdgeInsets.all(h * 0.005),
                           alignment: Alignment.center,
-                          decoration: BoxDecoration(
+                          decoration: const BoxDecoration(
                               color: Colors.red,
                               borderRadius:
                                   BorderRadius.all(Radius.circular(10))),

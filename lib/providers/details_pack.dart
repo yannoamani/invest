@@ -130,7 +130,7 @@ class DetailsPackProv extends ChangeNotifier {
   }
 
   set tranche(tranche) {
-    _tranche = tranche != null ? tranche : 0;
+    _tranche = tranche ?? 0;
     notifyListeners();
   }
 

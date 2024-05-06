@@ -5,10 +5,10 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
-import '../providers/userProvider.dart';
+import '../providers/user_provider.dart';
 
 class SignIn extends StatefulWidget {
-  const SignIn({Key? key}) : super(key: key);
+  const SignIn({super.key});
 
   @override
   State<SignIn> createState() => _SignInState();
@@ -33,6 +33,7 @@ class _SignInState extends State<SignIn> {
       passwordF = "",
       confirmPassF = "";
   int _activeStepIndex = 0;
+  // ignore: prefer_typing_uninitialized_variables
   var identity;
 
   @override
@@ -112,8 +113,8 @@ class _SignInState extends State<SignIn> {
                     title: Text(
                       "Etape 1",
                       style: _activeStepIndex >= 0
-                          ? TextStyle(fontSize: 14)
-                          : TextStyle(fontSize: 12),
+                          ? const TextStyle(fontSize: 14)
+                          : const TextStyle(fontSize: 12),
                     ),
                     content: SingleChildScrollView(
                       child: Column(
@@ -155,8 +156,8 @@ class _SignInState extends State<SignIn> {
                     title: Text(
                       "Etape 2",
                       style: _activeStepIndex >= 1
-                          ? TextStyle(fontSize: 14)
-                          : TextStyle(fontSize: 12),
+                          ? const TextStyle(fontSize: 14)
+                          : const TextStyle(fontSize: 12),
                     ),
                     content: SingleChildScrollView(
                       child: Column(
@@ -193,8 +194,8 @@ class _SignInState extends State<SignIn> {
                     title: Text(
                       "Etape 3",
                       style: _activeStepIndex >= 2
-                          ? TextStyle(fontSize: 14)
-                          : TextStyle(fontSize: 12),
+                          ? const TextStyle(fontSize: 14)
+                          : const TextStyle(fontSize: 12),
                     ),
                     content: SingleChildScrollView(
                       child: Column(
@@ -291,6 +292,9 @@ class _SignInState extends State<SignIn> {
                                             });
                                           }
                                         },
+                                  color: Colors.black,
+                                  minWidth: double.infinity,
+                                  height: h * 0.1,
                                   child: value.buttonClick
                                       ? const SpinKitFadingCircle(
                                           color: Colors.white,
@@ -301,9 +305,6 @@ class _SignInState extends State<SignIn> {
                                           style: customFonts(17, Colors.white,
                                               FontWeight.w200),
                                         ),
-                                  color: Colors.black,
-                                  minWidth: double.infinity,
-                                  height: h * 0.1,
                                 )),
                           ),
                           SizedBox(height: h * 0.05)
@@ -368,36 +369,6 @@ class _SignInState extends State<SignIn> {
     } else {
       // User canceled the picker
     }
-  }
-
-  Widget _identityField(h) {
-    return ClipRRect(
-      borderRadius: BorderRadius.all(Radius.circular(h * 0.02)),
-      child: Container(
-        padding: EdgeInsets.all(h * 0.01),
-        decoration: const BoxDecoration(color: Colors.white),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text(
-              "Pièce d'identité",
-              style: customFonts(18, Colors.black, FontWeight.bold),
-            ),
-            SizedBox(
-              height: 40,
-              child: ElevatedButton(
-                onPressed: () async {
-                  await pickFile();
-                },
-                child: Row(
-                  children: [Icon(Icons.download), Text('Charger')],
-                ),
-              ),
-            )
-          ],
-        ),
-      ),
-    );
   }
 }
 

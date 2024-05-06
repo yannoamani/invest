@@ -49,13 +49,12 @@ class UserProvider extends ChangeNotifier {
       body["password"] = pass;
       body["bank_card"] = bank;
 
-      final formData = new dio.FormData.fromMap(body);
+      final formData = dio.FormData.fromMap(body);
 
       final response = await dio.Dio().post(
         "https://backend.invest-ci.com/api/auth/signupMobile",
         data: formData,
       );
-      print("respnse: " + response.data.toString());
       if (response.data['status']) {
         _error = false;
         _errorMessage = "";
@@ -64,13 +63,12 @@ class UserProvider extends ChangeNotifier {
         _error = true;
         _errorMessage = "Problème au niveau de la connexion au serveur";
         _buttonClick = false;
-        print(response.statusCode);
       }
     } on dio.DioException catch (e) {
-      print("error:" + e.response.toString());
-      if (e.response!.statusCode == 500)
+      if (e.response!.statusCode == 500) {
         _errorMessage =
             "Code 500: Problème au niveau de la connexion au serveur";
+      }
       _buttonClick = false;
       _error = true;
     }
@@ -106,13 +104,11 @@ class UserProvider extends ChangeNotifier {
         _errorMessage = "";
         _buttonClick = false;
       } else {
-        print(response.data);
         _error = true;
         _errorMessage = "Problème au niveau de la connexion au serveur";
         _buttonClick = false;
       }
-    } on dio.DioError catch (e) {
-      print("error: " + e.response.toString());
+    } on dio.DioException catch (_) {
       _buttonClick = false;
       _errorMessage = "Identifiants incorrectes";
       _error = true;
@@ -128,7 +124,6 @@ class UserProvider extends ChangeNotifier {
       'Authorization': "Bearer $tok"
     });
     if (response.statusCode == 200) {
-      // print(jsonDecode(response.body)["data"]);
       try {
         _investisseur = User(
             id: jsonDecode(response.body)["data"]['id'],

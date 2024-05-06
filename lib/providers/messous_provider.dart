@@ -89,16 +89,13 @@ class MesSousProvider extends ChangeNotifier {
           _error = true;
           _errorMessage = e.toString();
           _isLoad = false;
-          print(_errorMessage);
         }
       } else {
         _error = true;
         _errorMessage = "Problème au niveau de la connexion au serveur";
         _isLoad = false;
-        print(_errorMessage);
       }
     } catch (e) {
-      print(e);
       _error = true;
       _errorMessage = e.toString();
       _isLoad = false;

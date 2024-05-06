@@ -1,22 +1,21 @@
-
 import 'package:dio/dio.dart';
-import 'package:invest_mobile/providers/loginInfo.dart';
-import 'package:invest_mobile/providers/userProvider.dart';
-import 'package:invest_mobile/widget/customButton.dart';
-import 'package:invest_mobile/widget/formWidget.dart';
+import 'package:invest_mobile/providers/login_info.dart';
+import 'package:invest_mobile/widget/custom_button.dart';
+import 'package:invest_mobile/widget/form_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../util/method.dart';
 
 class ChangePassword extends StatefulWidget {
-  const ChangePassword({Key? key}) : super(key: key);
-  _ChangePassword createState() => _ChangePassword();
+  const ChangePassword({super.key});
+  @override
+  State<ChangePassword> createState() => _ChangePasswordState();
 }
 
-class _ChangePassword extends State<ChangePassword> {
-  final old_password = TextEditingController();
+class _ChangePasswordState extends State<ChangePassword> {
+  final oldPassword = TextEditingController();
   final password = TextEditingController();
-  final password_confirmation = TextEditingController();
+  final passwordConfirmation = TextEditingController();
   bool loading = false;
   void updatePassword() async {
     setState(() {
@@ -24,13 +23,8 @@ class _ChangePassword extends State<ChangePassword> {
     });
     var token =
         Provider.of<LoginInfo>(context, listen: false).userToken.toString();
-    var user_id = Provider.of<UserProvider>(context, listen: false)
-        .investisseur
-        .id
-        .toString();
     String url = "https://backend.invest-ci.com/api/updateCompte";
     try {
-      Uri uri = Uri.parse(url);
       var response = await Dio().post(url,
           options: Options(headers: <String, String>{
             'Content-Type': 'multipart/form-data',
@@ -38,27 +32,28 @@ class _ChangePassword extends State<ChangePassword> {
             'Authorization': "Bearer $token"
           }),
           data: FormData.fromMap({
-            'old_password': old_password.text,
+            'old_password': oldPassword.text,
             'password': password.text,
-            'password_confirmation': password_confirmation.text,
+            'password_confirmation': passwordConfirmation.text,
           }));
       int statusCode = response.statusCode!;
       var responseBody = response.data;
-      // print(responseBody.toString());
       if (statusCode == 200) {
         if (responseBody['status']) {
           setState(() {
             loading = false;
           });
-          Navigator.pop(context);
+
+          // ignore: use_build_context_synchronously
           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
               content: Text("Modifié avec succès",
                   style: customFonts(14, Colors.white, FontWeight.bold)),
               backgroundColor: Colors.green,
               duration: const Duration(seconds: 1)));
         } else {
+          // ignore: use_build_context_synchronously
           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-              content: Text("ERROR1 :" + responseBody['message'],
+              content: Text("ERROR1 : ${responseBody['message']}",
                   style: customFonts(14, Colors.white, FontWeight.bold)),
               backgroundColor: Colors.red,
               duration: const Duration(seconds: 1)));
@@ -71,14 +66,13 @@ class _ChangePassword extends State<ChangePassword> {
           loading = false;
 
           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-              content: Text("ERROR2: " + responseBody['message'],
+              content: Text("ERROR2: ${responseBody['message']}",
                   style: customFonts(14, Colors.white, FontWeight.bold)),
               backgroundColor: Colors.red,
               duration: const Duration(seconds: 1)));
         });
       }
-    } on DioError catch (e) {
-      print(e.response);
+    } on DioException catch (_) {
       setState(() {
         loading = false;
 
@@ -89,6 +83,8 @@ class _ChangePassword extends State<ChangePassword> {
             duration: const Duration(seconds: 1)));
       });
     }
+    // ignore: use_build_context_synchronously
+    Navigator.pop(context);
   }
 
   @override
@@ -139,7 +135,7 @@ class _ChangePassword extends State<ChangePassword> {
                         h: h,
                         label: "Ancien mot de passe",
                         intText: "",
-                        controllerText: old_password,
+                        controllerText: oldPassword,
                         type: TextInputType.visiblePassword,
                         useIcon: true),
                     SizedBox(height: h * 0.02),
@@ -164,7 +160,7 @@ class _ChangePassword extends State<ChangePassword> {
                         h: h,
                         label: "Confirme le mot de passe",
                         intText: "",
-                        controllerText: password_confirmation,
+                        controllerText: passwordConfirmation,
                         type: TextInputType.visiblePassword,
                         useIcon: true),
                     SizedBox(height: h * 0.06),

@@ -1,22 +1,24 @@
-import 'package:invest_mobile/providers/loginInfo.dart';
+import 'package:invest_mobile/providers/login_info.dart';
 import 'package:invest_mobile/routes/route.dart';
-import 'package:invest_mobile/widget/customButton.dart';
+import 'package:invest_mobile/widget/custom_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 
-import '../providers/messousProvider.dart';
+import '../providers/messous_provider.dart';
 import '../util/method.dart';
 
 class Suscrib extends StatefulWidget {
-  const Suscrib({Key? key}) : super(key: key);
+  const Suscrib({super.key});
+  @override
   State<Suscrib> createState() => _SuscribState();
 }
 
 class _SuscribState extends State<Suscrib> {
   List? packs;
   bool load = false;
+  @override
   void initState() {
     loadPack();
     super.initState();
@@ -30,6 +32,7 @@ class _SuscribState extends State<Suscrib> {
     await Provider.of<MesSousProvider>(context, listen: false).loadSous(
         Provider.of<LoginInfo>(context, listen: false).userId,
         Provider.of<LoginInfo>(context, listen: false).userToken.toString());
+    // ignore: use_build_context_synchronously, await_only_futures
     packs = await context.read<MesSousProvider>().pack;
 
     setState(() {
@@ -75,7 +78,7 @@ class _SuscribState extends State<Suscrib> {
               ],
             )
           : load
-              ? SpinKitFadingCircle(
+              ? const SpinKitFadingCircle(
                   color: Color.fromARGB(255, 0, 0, 0),
                   size: 25,
                 )
@@ -96,27 +99,23 @@ class _SuscribState extends State<Suscrib> {
                       physics: const BouncingScrollPhysics(),
                       itemBuilder: ((context, index) => MaterialButton(
                           onPressed: () {
-                            List rapport = packs![index]["rapport"];
                             int received = 0;
 
-                            print(rapport
-                                .map((e) => received = e['cout'] + received));
-
-                            int count_vente = packs![index]["package"]
+                            int countVente = packs![index]["package"]
                                     ["cout_vente"] *
                                 packs![index]["nb_pieces"];
-                            int cout_achat = packs![index]["package"]
+                            int coutAchat = packs![index]["package"]
                                     ["cout_acquisition"] *
                                 packs![index]["nb_pieces"];
                             context.read<MesSousProvider>().coutpackage =
-                                cout_achat;
+                                coutAchat;
                             context.read<MesSousProvider>().montant =
-                                count_vente;
+                                countVente;
                             context.read<MesSousProvider>().rapport =
                                 packs![index]["rapport"];
                             context.read<MesSousProvider>().recu = received;
                             context.read<MesSousProvider>().restant =
-                                count_vente - received;
+                                countVente - received;
                             context.read<MesSousProvider>().ecoulement =
                                 packs![index]["date_validite"];
                             context.read<MesSousProvider>().libelle =
@@ -142,7 +141,7 @@ class _SuscribState extends State<Suscrib> {
 }
 
 Widget customItem(double h, String libelle, String type, int gain,
-        String nb_jour, int conso) =>
+        String nbJour, int conso) =>
     Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -189,12 +188,12 @@ Widget customItem(double h, String libelle, String type, int gain,
                         ? Text("En cours",
                             style: customFonts(
                                 14,
-                                Color.fromARGB(255, 136, 136, 136),
+                                const Color.fromARGB(255, 136, 136, 136),
                                 FontWeight.bold))
                         : Text("Terminé",
                             style: customFonts(
                                 14,
-                                Color.fromARGB(255, 144, 144, 144),
+                                const Color.fromARGB(255, 144, 144, 144),
                                 FontWeight.bold)),
                   ),
                   SizedBox(width: h * 0.018),
@@ -205,7 +204,7 @@ Widget customItem(double h, String libelle, String type, int gain,
                         color: Colors.grey[300],
                         borderRadius:
                             BorderRadius.all(Radius.circular(h * 0.02))),
-                    child: Text("Date limite : $nb_jour ",
+                    child: Text("Date limite : $nbJour ",
                         style: customFonts(14, Colors.grey, FontWeight.bold)),
                   )
                 ],
@@ -213,18 +212,5 @@ Widget customItem(double h, String libelle, String type, int gain,
             ],
           ),
         ),
-        // Expanded(
-        //   flex: 3,
-        //   child: Column(
-        //     children: [
-        //       Padding(
-        //         padding: EdgeInsets.only(top: h * 0.05),
-        //         child: Text("$nb_jour",
-        //             textAlign: TextAlign.center,
-        //             style: customFonts(14, Colors.grey, FontWeight.w200)),
-        //       )
-        //     ],
-        //   ),
-        // )
       ],
     );

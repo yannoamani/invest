@@ -1,13 +1,13 @@
-import 'package:invest_mobile/providers/loginInfo.dart';
+import 'package:invest_mobile/providers/login_info.dart';
 import 'package:invest_mobile/routes/route.dart';
-import 'package:invest_mobile/widget/customButton.dart';
+import 'package:invest_mobile/widget/custom_button.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../util/method.dart';
 
 class BeginScreen extends StatelessWidget {
-  const BeginScreen({Key? key}) : super(key: key);
+  const BeginScreen({super.key});
 
   @override
   Widget build(BuildContext context) {

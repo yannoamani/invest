@@ -2,10 +2,10 @@ import 'dart:math';
 
 import 'package:dio/dio.dart';
 import 'package:file_picker/file_picker.dart';
-import 'package:invest_mobile/providers/loginInfo.dart';
-import 'package:invest_mobile/providers/userProvider.dart';
-import 'package:invest_mobile/widget/customButton.dart';
-import 'package:invest_mobile/widget/formWidget.dart';
+import 'package:invest_mobile/providers/login_info.dart';
+import 'package:invest_mobile/providers/user_provider.dart';
+import 'package:invest_mobile/widget/custom_button.dart';
+import 'package:invest_mobile/widget/form_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -13,11 +13,12 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import '../../util/method.dart';
 
 class DetailsProfil extends StatefulWidget {
-  const DetailsProfil({Key? key}) : super(key: key);
-  _DetailsProfil createState() => _DetailsProfil();
+  const DetailsProfil({super.key});
+  @override
+  State<DetailsProfil> createState() => _DetailsProfilState();
 }
 
-class _DetailsProfil extends State<DetailsProfil> {
+class _DetailsProfilState extends State<DetailsProfil> {
   bool loading = false;
   final nom = TextEditingController();
   final prenoms = TextEditingController();
@@ -25,7 +26,7 @@ class _DetailsProfil extends State<DetailsProfil> {
   final localisation = TextEditingController();
   final email = TextEditingController();
   final bankcard = TextEditingController();
-  var identity;
+  FilePickerResult? identity;
 
   void detailsRequest() async {
     setState(() {
@@ -59,24 +60,32 @@ class _DetailsProfil extends State<DetailsProfil> {
           setState(() {
             loading = false;
           });
+          // ignore: use_build_context_synchronously
           context.read<UserProvider>().investisseur.nom =
               responseBody['data']['nom'];
+          // ignore: use_build_context_synchronously
           context.read<UserProvider>().investisseur.prenom =
               responseBody['data']['prenoms'];
+          // ignore: use_build_context_synchronously
           context.read<UserProvider>().investisseur.email =
               responseBody['data']['email'];
+          // ignore: use_build_context_synchronously
           context.read<UserProvider>().investisseur.phone =
               responseBody['data']['phone'];
+          // ignore: use_build_context_synchronously
           context.read<UserProvider>().investisseur.bankcard =
               responseBody['data']['bank_card'];
+          // ignore: use_build_context_synchronously
           context.read<UserProvider>().investisseur.lieuHabitation =
               responseBody['data']['lieu_habitation'];
+          // ignore: use_build_context_synchronously
           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
               content: Text("Modifié avec succès",
                   style: customFonts(14, Colors.white, FontWeight.bold)),
               backgroundColor: Colors.green,
               duration: const Duration(seconds: 1)));
         } else {
+          // ignore: use_build_context_synchronously
           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
               content: Text(responseBody['message'],
                   style: customFonts(14, Colors.white, FontWeight.bold)),
@@ -97,8 +106,7 @@ class _DetailsProfil extends State<DetailsProfil> {
               duration: const Duration(seconds: 1)));
         });
       }
-    } on DioException catch (e) {
-      print(e.response);
+    } on DioException catch (_) {
       setState(() {
         loading = false;
 
@@ -139,8 +147,7 @@ class _DetailsProfil extends State<DetailsProfil> {
           child: Column(
             children: [
               SizedBox(height: h * 0.01),
-              Provider.of<UserProvider>(context).investisseur.identity.length ==
-                      0
+              Provider.of<UserProvider>(context).investisseur.identity.isEmpty
                   ? _identityField(h)
                   : Container(),
               FormWidget(
@@ -200,7 +207,7 @@ class _DetailsProfil extends State<DetailsProfil> {
               ),
               SizedBox(height: h * 0.03),
               loading
-                  ? SpinKitFadingCircle(
+                  ? const SpinKitFadingCircle(
                       color: Color.fromARGB(255, 0, 0, 0),
                       size: 25,
                     )
@@ -249,7 +256,7 @@ class _DetailsProfil extends State<DetailsProfil> {
                 onPressed: () async {
                   await pickFile();
                 },
-                child: Row(
+                child: const Row(
                   children: [
                     Icon(
                       Icons.download,
@@ -275,15 +282,13 @@ class _DetailsProfil extends State<DetailsProfil> {
     var user = Provider.of<UserProvider>(context, listen: false).investisseur;
     String url = "https://backend.invest-ci.com/api/update";
     try {
-      Uri uri = Uri.parse(url);
-
-      var body = Map<String, dynamic>();
+      var body = <String, dynamic>{};
       body['id'] = user.id;
       body['identity'] = await MultipartFile.fromFile(
           identity!.files.single.path.toString(),
           filename:
               "identity_user_0${user.id}${Random().nextInt(100).toString()}");
-      FormData formData = new FormData.fromMap(body);
+      FormData formData = FormData.fromMap(body);
       final dio = Dio();
 
       var response = await dio.post(
@@ -296,8 +301,10 @@ class _DetailsProfil extends State<DetailsProfil> {
         ),
       );
       if (response.data['status']) {
+        // ignore: use_build_context_synchronously
         context.read<UserProvider>().investisseur.identity =
             response.data['data']['identity'];
+        // ignore: use_build_context_synchronously
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
             content: Text("Ajouté avec succès",
                 style: customFonts(14, Colors.white, FontWeight.bold)),
@@ -305,6 +312,7 @@ class _DetailsProfil extends State<DetailsProfil> {
             duration: const Duration(seconds: 1)));
         setState(() {});
       } else {
+        // ignore: use_build_context_synchronously
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
             content: Text(response.data['message'],
                 style: customFonts(14, Colors.white, FontWeight.bold)),
@@ -312,7 +320,6 @@ class _DetailsProfil extends State<DetailsProfil> {
             duration: const Duration(seconds: 1)));
       }
     } catch (e) {
-      print(e);
       setState(() {
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
             content: Text("Erreur",

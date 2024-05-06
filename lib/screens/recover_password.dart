@@ -1,10 +1,10 @@
 import 'package:invest_mobile/util/method.dart';
-import 'package:invest_mobile/widget/customButton.dart';
+import 'package:invest_mobile/widget/custom_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class RecoverPassword extends StatefulWidget {
-  const RecoverPassword({Key? key}) : super(key: key);
+  const RecoverPassword({super.key});
 
   @override
   State<RecoverPassword> createState() => _RecoverPasswordState();
@@ -20,7 +20,6 @@ class _RecoverPasswordState extends State<RecoverPassword> {
     super.initState();
     controller.addListener(() {
       text = controller.text;
-      print(text);
     });
   }
 

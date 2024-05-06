@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:invest_mobile/providers/loginInfo.dart';
+import 'package:invest_mobile/providers/login_info.dart';
 import 'package:invest_mobile/util/method.dart';
 import 'package:dotted_line/dotted_line.dart';
 import 'package:flutter/material.dart';
@@ -10,13 +10,15 @@ import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 
 class Transaction extends StatefulWidget {
-  const Transaction({Key? key}) : super(key: key);
-  _Transaction createState() => _Transaction();
+  const Transaction({super.key});
+  @override
+  State<Transaction> createState() => _Transaction();
 }
 
 class _Transaction extends State<Transaction> {
   List operations = [];
   bool load = false;
+  @override
   void initState() {
     mesOperations();
     super.initState();
@@ -55,14 +57,12 @@ class _Transaction extends State<Transaction> {
           setState(() {
             load = false;
           });
-          print(statusCode.toString());
         }
       }
     } catch (e) {
       setState(() {
         load = false;
       });
-      print(e);
     }
   }
 
@@ -86,7 +86,7 @@ class _Transaction extends State<Transaction> {
           elevation: 0,
         ),
         body: load
-            ? SpinKitFadingCircle(
+            ? const SpinKitFadingCircle(
                 color: Color.fromARGB(255, 0, 0, 0),
                 size: 25,
               )

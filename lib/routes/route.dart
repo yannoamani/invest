@@ -1,17 +1,17 @@
-import 'package:invest_mobile/screens/beginScreen.dart';
+import 'package:invest_mobile/screens/begin_screen.dart';
 import 'package:invest_mobile/screens/compte/change_password.dart';
 import 'package:invest_mobile/screens/compte/details_profil.dart';
 import 'package:invest_mobile/screens/compte/portfeuil.dart';
 import 'package:invest_mobile/screens/compte/transaction.dart';
-import 'package:invest_mobile/screens/detailSouscri.dart';
-import 'package:invest_mobile/screens/detailsPackScreen.dart';
-import 'package:invest_mobile/screens/homePage.dart';
-import 'package:invest_mobile/screens/loginPage.dart';
-import 'package:invest_mobile/screens/othScreen.dart';
-import 'package:invest_mobile/screens/signInPage.dart';
+import 'package:invest_mobile/screens/detail_souscri.dart';
+import 'package:invest_mobile/screens/details_pack_screen.dart';
+import 'package:invest_mobile/screens/home_page.dart';
+import 'package:invest_mobile/screens/login_page.dart';
+import 'package:invest_mobile/screens/oth_screen.dart';
+import 'package:invest_mobile/screens/sign_in_page.dart';
 import 'package:flutter/material.dart';
 
-import '../screens/recoverPassword.dart';
+import '../screens/recover_password.dart';
 
 class MyRoute {
   static const String loginPage = "/";

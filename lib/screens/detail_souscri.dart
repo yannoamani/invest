@@ -1,4 +1,4 @@
-import 'package:invest_mobile/providers/messousProvider.dart';
+import 'package:invest_mobile/providers/messous_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:invest_mobile/util/method.dart';
 import 'package:provider/provider.dart';
@@ -6,7 +6,7 @@ import 'package:fl_chart/fl_chart.dart';
 import 'dart:math' as math;
 
 class DetailsSouscription extends StatefulWidget {
-  const DetailsSouscription({Key? key}) : super(key: key);
+  const DetailsSouscription({super.key});
 
   @override
   State<DetailsSouscription> createState() => _DetailsSouscriptionState();
@@ -105,8 +105,7 @@ class _DetailsSouscriptionState extends State<DetailsSouscription> {
                                       Text("Date écoulement",
                                           style: customFonts(16, Colors.grey,
                                               FontWeight.bold)),
-                                      Text(
-                                          "${value.ecoulement.substring(0, 10)}",
+                                      Text(value.ecoulement.substring(0, 10),
                                           style: customFonts(
                                               16, Colors.grey, FontWeight.bold))
                                     ]),
@@ -114,11 +113,11 @@ class _DetailsSouscriptionState extends State<DetailsSouscription> {
                                 // PROGRESSION
                                 Stack(
                                   children: [
-                                    Container(
+                                    SizedBox(
                                         width: w * 0.9,
                                         height: h * 0.06,
                                         child: ClipRRect(
-                                          borderRadius: BorderRadius.all(
+                                          borderRadius: const BorderRadius.all(
                                               Radius.circular(200)),
                                           child: LinearProgressIndicator(
                                             value: progressPercentage(
@@ -143,7 +142,7 @@ class _DetailsSouscriptionState extends State<DetailsSouscription> {
                                                         value.recu,
                                                         value.montant) <
                                                     0.5
-                                                ? Color.fromARGB(
+                                                ? const Color.fromARGB(
                                                     117, 244, 67, 54)
                                                 : progressPercentage(
                                                                 value.recu,
@@ -154,9 +153,9 @@ class _DetailsSouscriptionState extends State<DetailsSouscription> {
                                                                 value.recu,
                                                                 value.montant) <
                                                             0.8
-                                                    ? Color.fromARGB(
+                                                    ? const Color.fromARGB(
                                                         109, 255, 235, 59)
-                                                    : Color.fromARGB(
+                                                    : const Color.fromARGB(
                                                         106, 76, 175, 79),
                                             semanticsValue: "Début",
                                           ),
@@ -251,10 +250,10 @@ class _DetailsSouscriptionState extends State<DetailsSouscription> {
                             height: 30,
                             decoration: BoxDecoration(
                                 color: !_tooglerecap
-                                    ? Color.fromARGB(255, 202, 201, 201)
+                                    ? const Color.fromARGB(255, 202, 201, 201)
                                     : Colors.transparent,
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(10))),
+                                borderRadius: const BorderRadius.all(
+                                    Radius.circular(10))),
                             child: Center(
                                 child: Text(
                               "Graphe",
@@ -275,10 +274,10 @@ class _DetailsSouscriptionState extends State<DetailsSouscription> {
                             height: 30,
                             decoration: BoxDecoration(
                                 color: _tooglerecap
-                                    ? Color.fromARGB(255, 202, 201, 201)
+                                    ? const Color.fromARGB(255, 202, 201, 201)
                                     : Colors.transparent,
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(10))),
+                                borderRadius: const BorderRadius.all(
+                                    Radius.circular(10))),
                             child: Center(
                                 child: Text(
                               "Liste",
@@ -305,7 +304,7 @@ class _DetailsSouscriptionState extends State<DetailsSouscription> {
                             padding: const EdgeInsets.all(10),
                             margin: const EdgeInsets.only(
                                 right: 10, left: 10, top: 65),
-                            decoration: BoxDecoration(
+                            decoration: const BoxDecoration(
                                 color: Colors.transparent,
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(20))),
@@ -315,8 +314,8 @@ class _DetailsSouscriptionState extends State<DetailsSouscription> {
                                 Expanded(
                                     child: PieChart(
                                   mainPiechatData(value.rapport),
-                                  swapAnimationDuration:
-                                      Duration(milliseconds: 150), // Optional
+                                  swapAnimationDuration: const Duration(
+                                      milliseconds: 150), // Optional
                                   swapAnimationCurve: Curves.linear, // Optional
                                 )),
                                 const SizedBox(height: 90),
@@ -332,7 +331,7 @@ class _DetailsSouscriptionState extends State<DetailsSouscription> {
                               : Container(
                                   decoration: BoxDecoration(
                                       color: Colors.white,
-                                      borderRadius: BorderRadius.all(
+                                      borderRadius: const BorderRadius.all(
                                           Radius.circular(5.0)),
                                       border: Border.all(color: Colors.green)),
                                   child: ListTile(
@@ -346,7 +345,9 @@ class _DetailsSouscriptionState extends State<DetailsSouscription> {
                                         style: customFonts(
                                             24, Colors.grey, FontWeight.bold)),
                                     subtitle: Text(
-                                        "${value.rapport[index]["created_at"].toString().substring(0, 10)}",
+                                        value.rapport[index]["created_at"]
+                                            .toString()
+                                            .substring(0, 10),
                                         style: customFonts(
                                             15, Colors.grey, FontWeight.bold)),
                                   ),
@@ -371,7 +372,7 @@ class _DetailsSouscriptionState extends State<DetailsSouscription> {
         final numb = "${index + 1}";
         const shadows = [Shadow(color: Colors.black, blurRadius: 0.5)];
         return PieChartSectionData(
-          title: element['cout'].toString() + ' fcfa ',
+          title: '${element['cout']} fcfa ',
           color: colors[index],
           // color: Color.fromARGB(255, 104, 140, 95),
           value: element['cout'].toDouble(),
@@ -379,11 +380,11 @@ class _DetailsSouscriptionState extends State<DetailsSouscription> {
           titlePositionPercentageOffset: 0.6,
           borderSide: isTouched
               ? const BorderSide(color: Colors.grey, width: 1)
-              : BorderSide(color: Colors.grey, width: 0.5),
+              : const BorderSide(color: Colors.grey, width: 0.5),
           titleStyle: TextStyle(
             fontSize: fontSize,
             fontWeight: FontWeight.w500,
-            color: Color.fromARGB(255, 5, 5, 5),
+            color: const Color.fromARGB(255, 5, 5, 5),
             shadows: shadows,
           ),
           badgeWidget: _Badge(

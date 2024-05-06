@@ -1,8 +1,8 @@
-import 'package:invest_mobile/providers/detailsPack.dart';
-import 'package:invest_mobile/providers/loginInfo.dart';
-import 'package:invest_mobile/providers/messousProvider.dart';
-import 'package:invest_mobile/providers/packProvider.dart';
-import 'package:invest_mobile/providers/userProvider.dart';
+import 'package:invest_mobile/providers/details_pack.dart';
+import 'package:invest_mobile/providers/login_info.dart';
+import 'package:invest_mobile/providers/messous_provider.dart';
+import 'package:invest_mobile/providers/pack_provider.dart';
+import 'package:invest_mobile/providers/user_provider.dart';
 import 'package:invest_mobile/routes/route.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -17,11 +17,11 @@ void main() {
     ChangeNotifierProvider(create: ((context) => PackProvider())),
     ChangeNotifierProvider(create: ((context) => DetailsPackProv())),
     ChangeNotifierProvider(create: ((context) => MesSousProvider()))
-  ], builder: (context, child) => MyApp()));
+  ], builder: (context, child) => const MyApp()));
 }
 
 class MyApp extends StatefulWidget {
-  const MyApp({Key? key}) : super(key: key);
+  const MyApp({super.key});
 
   @override
   State<MyApp> createState() => _MyAppState();
@@ -37,7 +37,9 @@ class _MyAppState extends State<MyApp> {
 
   void initialisation() async {
     await context.read<LoginInfo>().loadState();
+    // ignore: use_build_context_synchronously
     if (context.read<LoginInfo>().isOnline) {
+      // ignore: use_build_context_synchronously
       await context.read<UserProvider>().userInfo();
     }
     FlutterNativeSplash.remove();

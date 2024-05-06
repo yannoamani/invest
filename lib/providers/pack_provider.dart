@@ -10,6 +10,7 @@ class PackProvider extends ChangeNotifier {
   bool _isLoad = true;
   List<dynamic> _pack = [];
 
+  // ignore: unnecessary_getters_setters
   bool get isLoad => _isLoad;
   bool get error => _error;
   String get errorMessage => _errorMessage;
@@ -23,25 +24,22 @@ class PackProvider extends ChangeNotifier {
     try {
       final response = await http.get(UrL.listPack, headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
-      }).timeout(Duration(seconds: 10));
+      }).timeout(const Duration(seconds: 10));
       if (response.statusCode == 200) {
         try {
           _pack = jsonDecode(response.body)["data"];
           _error = false;
           _errorMessage = "";
           _isLoad = false;
-          // print(_pack[_pack.length - 2]);
         } catch (e) {
           _error = true;
           _errorMessage = e.toString();
           _isLoad = false;
-          print(_errorMessage);
         }
       } else {
         _error = true;
         _errorMessage = "Problème au niveau de la connexion au serveur";
         _isLoad = false;
-        print(_errorMessage);
       }
     } catch (e) {
       _error = true;

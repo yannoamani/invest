@@ -4,9 +4,9 @@ import 'dart:io';
 import 'dart:math';
 
 import 'package:image_picker/image_picker.dart';
-import 'package:invest_mobile/providers/loginInfo.dart';
-import 'package:invest_mobile/providers/userProvider.dart';
-import 'package:invest_mobile/widget/customButton.dart';
+import 'package:invest_mobile/providers/login_info.dart';
+import 'package:invest_mobile/providers/user_provider.dart';
+import 'package:invest_mobile/widget/custom_button.dart';
 import 'package:dotted_line/dotted_line.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -16,21 +16,25 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:dio/dio.dart';
 
 class Wallet extends StatefulWidget {
-  const Wallet({Key? key}) : super(key: key);
-  _Wallet createState() => _Wallet();
+  const Wallet({super.key});
+  @override
+  State<Wallet> createState() => _WalletState();
 }
 
-class _Wallet extends State<Wallet> {
+class _WalletState extends State<Wallet> {
   String? _selectedMethod;
   bool loading = false;
   List methods = [];
   List operations = [];
   Widget? mod;
   String? fileName;
+  // ignore: prefer_typing_uninitialized_variables
   var result;
   TextEditingController amount = TextEditingController();
   TextEditingController contact = TextEditingController();
+  // ignore: prefer_typing_uninitialized_variables
   var showModalBottomSheet2;
+  @override
   void initState() {
     fetch();
     super.initState();
@@ -43,13 +47,13 @@ class _Wallet extends State<Wallet> {
     });
   }
 
-  void accountRequest(user_id, type, token) async {
+  void accountRequest(userId, type, token) async {
     setState(() {
       loading = true;
     });
-    var body;
-    body = new Map<String, dynamic>();
-    body['user_id'] = user_id;
+    Map<String, dynamic> body;
+    body = <String, dynamic>{};
+    body['user_id'] = userId;
     body['type'] = type;
     body['amount'] = amount.text;
     body['moyen_id'] = _selectedMethod.toString();
@@ -57,9 +61,9 @@ class _Wallet extends State<Wallet> {
     if (result != null) {
       body['proof'] = await MultipartFile.fromFile(result.path.toString(),
           filename:
-              'proof_user_0${user_id}_${Random().nextInt(100)}${Random().nextInt(100)}');
+              'proof_user_0${userId}_${Random().nextInt(100)}${Random().nextInt(100)}');
     }
-    FormData formData = new FormData.fromMap(body);
+    FormData formData = FormData.fromMap(body);
     final dio = Dio();
     String url = "https://backend.invest-ci.com/api/operations";
     try {
@@ -76,27 +80,29 @@ class _Wallet extends State<Wallet> {
         setState(() {
           loading = false;
         });
+        // ignore: use_build_context_synchronously
         Navigator.pop(context);
         fetch();
+        // ignore: use_build_context_synchronously
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
             content: Text("Requete envoyé avec succès",
                 style: customFonts(14, Colors.white, FontWeight.bold)),
             backgroundColor: Colors.green,
             duration: const Duration(seconds: 1)));
       } else {
-        print('eee' + response.data['message']);
         setState(() {
           loading = false;
         });
+        // ignore: use_build_context_synchronously
         Navigator.pop(context);
+        // ignore: use_build_context_synchronously
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
             content: Text(response.data['message'],
                 style: customFonts(14, Colors.white, FontWeight.bold)),
             backgroundColor: Colors.orange,
             duration: const Duration(seconds: 5)));
       }
-    } on DioError catch (e) {
-      print(e.response);
+    } on DioException catch (_) {
       setState(() {
         loading = false;
         Navigator.pop(context);
@@ -127,15 +133,10 @@ class _Wallet extends State<Wallet> {
           setState(() {
             methods = responseBody['data'];
           });
-          // print('avant');
-          // print(methods);
-        } else {
-          print(statusCode.toString());
         }
       }
-    } catch (e) {
-      print(e);
-    }
+      // ignore: empty_catches
+    } catch (e) {}
   }
 
   Future<void> _showMyDialog() async {
@@ -184,14 +185,14 @@ class _Wallet extends State<Wallet> {
       if (fichier != null) {
         result = fichier;
         fileName = 'Vous avez ajouté une piece jointe';
+        // ignore: use_build_context_synchronously
         Navigator.of(context).pop();
         _showMyDialog();
       } else {
         // User canceled the picker
       }
-    } catch (e) {
-      print(e);
-    }
+      // ignore: empty_catches
+    } catch (e) {}
   }
 
   retraitModal(h, w) {
@@ -224,11 +225,7 @@ class _Wallet extends State<Wallet> {
                                       style: customFonts(
                                           14, Colors.white, FontWeight.bold)),
                                   Text(
-                                      Provider.of<UserProvider>(context)
-                                              .investisseur
-                                              .solde
-                                              .toString() +
-                                          ' XOF',
+                                      '${Provider.of<UserProvider>(context).investisseur.solde} XOF',
                                       style: customFonts(
                                           18, Colors.white, FontWeight.bold)),
                                 ])),
@@ -265,7 +262,7 @@ class _Wallet extends State<Wallet> {
                               Text('Canal de reception',
                                   style: customFonts(
                                       16, Colors.black, FontWeight.bold)),
-                              Padding(padding: EdgeInsets.all(20)),
+                              const Padding(padding: EdgeInsets.all(20)),
                               DropdownButton<String>(
                                   value: _selectedMethod,
                                   elevation: 12,
@@ -279,7 +276,6 @@ class _Wallet extends State<Wallet> {
                                     setState(() {
                                       _selectedMethod = newValue;
                                     });
-                                    print(_selectedMethod);
                                   },
                                   selectedItemBuilder: (BuildContext context) {
                                     return methods.map<Widget>((item) {
@@ -326,7 +322,7 @@ class _Wallet extends State<Wallet> {
                         ),
                         SizedBox(height: h * 0.01),
                         loading
-                            ? SpinKitFadingCircle(
+                            ? const SpinKitFadingCircle(
                                 color: Color.fromARGB(255, 0, 0, 0),
                                 size: 25,
                               )
@@ -387,11 +383,7 @@ class _Wallet extends State<Wallet> {
                                       style: customFonts(
                                           14, Colors.white, FontWeight.bold)),
                                   Text(
-                                      Provider.of<UserProvider>(context)
-                                              .investisseur
-                                              .solde
-                                              .toString() +
-                                          ' XOF',
+                                      '${Provider.of<UserProvider>(context).investisseur.solde} XOF',
                                       style: customFonts(
                                           18, Colors.white, FontWeight.bold)),
                                 ])),
@@ -428,7 +420,7 @@ class _Wallet extends State<Wallet> {
                               Text('Canal d\'envoi',
                                   style: customFonts(
                                       16, Colors.black, FontWeight.bold)),
-                              Padding(padding: EdgeInsets.all(20)),
+                              const Padding(padding: EdgeInsets.all(20)),
                               DropdownButton<String>(
                                   value: _selectedMethod,
                                   elevation: 12,
@@ -442,7 +434,6 @@ class _Wallet extends State<Wallet> {
                                     setState(() {
                                       _selectedMethod = newValue;
                                     });
-                                    print(_selectedMethod);
                                   },
                                   selectedItemBuilder: (BuildContext context) {
                                     return methods.map<Widget>((item) {
@@ -471,8 +462,8 @@ class _Wallet extends State<Wallet> {
                                 onPressed: () {
                                   uploadFile();
                                 },
-                                child: Text('fichier')),
-                            Padding(padding: EdgeInsets.all(8)),
+                                child: const Text('fichier')),
+                            const Padding(padding: EdgeInsets.all(8)),
                             fileName == null
                                 ? Text('',
                                     style: TextStyle(
@@ -499,11 +490,6 @@ class _Wallet extends State<Wallet> {
                             h: h,
                             label: "Déposer",
                             touch: () {
-                              // print(Provider.of<UserProvider>(context,
-                              //         listen: false)
-                              //     .investisseur
-                              //     .solde
-                              //     .toString());
                               accountRequest(
                                   Provider.of<UserProvider>(context,
                                           listen: false)
@@ -541,7 +527,6 @@ class _Wallet extends State<Wallet> {
         },
       );
       int statusCode = response.statusCode;
-      // print(response.body.toString());
       if (statusCode == 200) {
         var responseBody = jsonDecode(response.body);
         if (responseBody['status']) {
@@ -549,18 +534,13 @@ class _Wallet extends State<Wallet> {
             operations = responseBody['data'];
             loading = false;
           });
-          // print('avant');
-
-          // print(methods);
         } else {
-          print(statusCode.toString());
           setState(() {
             loading = false;
           });
         }
       }
     } catch (e) {
-      print(e);
       setState(() {
         loading = false;
       });
@@ -590,7 +570,7 @@ class _Wallet extends State<Wallet> {
         centerTitle: true,
       ),
       body: loading
-          ? SpinKitFadingCircle(
+          ? const SpinKitFadingCircle(
               color: Color.fromARGB(255, 0, 0, 0),
               size: 25,
             )

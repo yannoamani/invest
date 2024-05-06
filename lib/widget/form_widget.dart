@@ -4,15 +4,14 @@ import '../util/method.dart';
 
 class FormWidget extends StatelessWidget {
   const FormWidget(
-      {Key? key,
+      {super.key,
       required this.h,
       required this.label,
       required this.intText,
       required this.type,
       required this.controllerText,
       required this.useIcon,
-      this.obscure = false})
-      : super(key: key);
+      this.obscure = false});
 
   final double h;
   final String label;

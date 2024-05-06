@@ -4,13 +4,12 @@ import '../util/method.dart';
 
 class CustomButton extends StatelessWidget {
   const CustomButton(
-      {Key? key,
+      {super.key,
       required this.h,
       required this.label,
       required this.touch,
       required this.colorBtn,
-      required this.textColor})
-      : super(key: key);
+      required this.textColor});
 
   final double h;
   final String label;
@@ -25,13 +24,13 @@ class CustomButton extends StatelessWidget {
         onPressed: () {
           touch();
         },
+        color: colorBtn,
+        minWidth: double.infinity,
+        height: h * 0.1,
         child: Text(
           label,
           style: customFonts(17, textColor, FontWeight.w200),
         ),
-        color: colorBtn,
-        minWidth: double.infinity,
-        height: h * 0.1,
       ),
     );
   }
