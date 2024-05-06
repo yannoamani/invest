@@ -149,7 +149,7 @@ class _HomeState extends State<Home> {
                               SliverGridDelegateWithFixedCrossAxisCount(
                                   crossAxisCount: 2,
                                   mainAxisSpacing: h * 0.014,
-                                  childAspectRatio: 0.7),
+                                  childAspectRatio: 0.6),
                           delegate: SliverChildBuilderDelegate(
                               (context, index) => GestureDetector(
                                   onTap: () {
@@ -203,70 +203,61 @@ class _HomeState extends State<Home> {
 
 Widget customCard(
     double h, String libelle, int cout, int vente, String img, int piece) {
-  return SizedBox(
-    height: h,
-    child: Card(
-      shape:
-          RoundedRectangleBorder(borderRadius: BorderRadius.circular(h * 0.02)),
-      child: Container(
-        decoration: BoxDecoration(
-            color: Colors.white, borderRadius: BorderRadius.circular(h * 0.02)),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Container(
-              margin: const EdgeInsets.all(2),
-              constraints: BoxConstraints(
-                minHeight: h * 0.18,
-                minWidth: h * 0.2,
-              ),
-              // child: Image.network(""),
-
-              decoration: BoxDecoration(
-                  image: DecorationImage(
-                      image: NetworkImage(
-                          'https://backend.invest-ci.com/public/$img'),
-                      // AssetImage("images/image/img1.jpg"),
-                      fit: BoxFit.cover),
-                  borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(h * 0.02),
-                      topRight: Radius.circular(h * 0.02))),
+  return Card(
+    shape:
+        RoundedRectangleBorder(borderRadius: BorderRadius.circular(h * 0.02)),
+    child: Container(
+      decoration: BoxDecoration(
+          color: Colors.white, borderRadius: BorderRadius.circular(h * 0.02)),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Container(
+            margin: const EdgeInsets.all(2),
+            constraints: BoxConstraints(
+              minHeight: h * 0.18,
+              minWidth: h * 0.2,
             ),
-            Padding(
-              padding: EdgeInsets.only(left: h * 0.01, top: h * 0.001),
-              child: Text(libelle,
-                  style: customFonts(16, Colors.black, FontWeight.bold)),
-            ),
-            Padding(
-              padding: EdgeInsets.only(left: h * 0.01, top: h * 0.001),
-              child: Text("Coût : $cout cfa",
-                  style: customFonts(16, Colors.black, FontWeight.bold)),
-            ),
-            Padding(
-              padding: EdgeInsets.only(left: h * 0.01, top: h * 0.001),
-              child: Text("Gain : $vente cfa",
-                  style: customFonts(16, Colors.black, FontWeight.bold)),
-            ),
-            piece == 0
-                ? Container(
-                    // padding: EdgeInsets.only(top: h * 0.01),
-                    alignment: Alignment.center,
-                    decoration: const BoxDecoration(
-                        color: Colors.red,
-                        borderRadius: BorderRadius.all(Radius.circular(10))),
-                    child: Text('Pièce epuisé',
-                        style: customFonts(17, Colors.white, FontWeight.bold)),
-                  )
-                : Padding(
-                    padding: EdgeInsets.only(left: h * 0.01, top: h * 0.001),
-                    child: Text("Pièces en stock: $piece",
-                        style: customFonts(16, Colors.black, FontWeight.bold)),
-                  ),
-            Padding(
-              padding: EdgeInsets.only(left: h * 0.01, top: h * 0.01),
-            ),
-          ],
-        ),
+            decoration: BoxDecoration(
+                image: DecorationImage(
+                    image: NetworkImage(
+                        'https://backend.invest-ci.com/public/$img'),
+                    // AssetImage("images/image/img1.jpg"),
+                    fit: BoxFit.cover),
+                borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(h * 0.02),
+                    topRight: Radius.circular(h * 0.02))),
+          ),
+          Padding(
+            padding: EdgeInsets.only(left: h * 0.01, top: h * 0.001),
+            child: Text(libelle,
+                style: customFonts(16, Colors.black, FontWeight.bold)),
+          ),
+          Padding(
+            padding: EdgeInsets.only(left: h * 0.01, top: h * 0.001),
+            child: Text("Coût : $cout cfa",
+                style: customFonts(16, Colors.black, FontWeight.bold)),
+          ),
+          Padding(
+            padding: EdgeInsets.only(left: h * 0.01, top: h * 0.001),
+            child: Text("Gain : $vente cfa",
+                style: customFonts(16, Colors.black, FontWeight.bold)),
+          ),
+          piece == 0
+              ? Container(
+                  alignment: Alignment.center,
+                  decoration: const BoxDecoration(
+                      color: Colors.red,
+                      borderRadius: BorderRadius.all(Radius.circular(10))),
+                  child: Text('Pièce epuisé',
+                      style: customFonts(17, Colors.white, FontWeight.bold)),
+                )
+              : Padding(
+                  padding: EdgeInsets.only(left: h * 0.01, top: h * 0.001),
+                  child: Text("Pièces en stock: $piece",
+                      style: customFonts(16, Colors.black, FontWeight.bold)),
+                ),
+        ],
       ),
     ),
   );

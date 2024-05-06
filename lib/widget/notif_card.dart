@@ -26,7 +26,6 @@ class _NotifCardState extends State<NotifCard> {
                 color: const Color.fromARGB(121, 171, 195, 247),
                 child: SizedBox(
                   width: w,
-                  height: 70,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.end,
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
