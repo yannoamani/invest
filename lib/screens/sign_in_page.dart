@@ -20,14 +20,12 @@ class _SignInState extends State<SignIn> {
   TextEditingController prenom = TextEditingController();
   TextEditingController phone = TextEditingController();
   TextEditingController habitation = TextEditingController();
-  TextEditingController bank = TextEditingController();
   TextEditingController email = TextEditingController();
   TextEditingController password = TextEditingController();
   TextEditingController confirmPass = TextEditingController();
   String nomF = "",
       prenomF = "",
       phoneF = "",
-      bankF = "",
       habitationF = "",
       emailF = "",
       passwordF = "",
@@ -47,9 +45,6 @@ class _SignInState extends State<SignIn> {
     });
     phone.addListener(() {
       phoneF = phone.text;
-    });
-    bank.addListener(() {
-      bankF = bank.text;
     });
     habitation.addListener(() {
       habitationF = habitation.text;
@@ -139,11 +134,6 @@ class _SignInState extends State<SignIn> {
                               "0000000000", false, (String? value) {
                             return null;
                           }, phone),
-                          _form(h, "N° de carte bancaire", TextInputType.number,
-                              "XXXXXXXXXX", false, (String? value) {
-                            return null;
-                          }, bank),
-                          SizedBox(height: h * 0.03),
                         ],
                       ),
                     )),
@@ -246,7 +236,6 @@ class _SignInState extends State<SignIn> {
                                                     nomF,
                                                     prenomF,
                                                     phoneF,
-                                                    bankF,
                                                     habitationF,
                                                     emailF,
                                                     passwordF,

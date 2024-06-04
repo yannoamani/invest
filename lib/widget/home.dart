@@ -149,7 +149,8 @@ class _HomeState extends State<Home> {
                               SliverGridDelegateWithFixedCrossAxisCount(
                                   crossAxisCount: 2,
                                   mainAxisSpacing: h * 0.014,
-                                  childAspectRatio: 0.6),
+                                  childAspectRatio: w <= 394.0 ? 0.65 : 1.1
+                                  ),
                           delegate: SliverChildBuilderDelegate(
                               (context, index) => GestureDetector(
                                   onTap: () {
@@ -207,6 +208,7 @@ Widget customCard(
     shape:
         RoundedRectangleBorder(borderRadius: BorderRadius.circular(h * 0.02)),
     child: Container(
+      padding: const EdgeInsets.symmetric(horizontal: 2,vertical: 2),
       decoration: BoxDecoration(
           color: Colors.white, borderRadius: BorderRadius.circular(h * 0.02)),
       child: Column(
@@ -254,7 +256,7 @@ Widget customCard(
                 )
               : Padding(
                   padding: EdgeInsets.only(left: h * 0.01, top: h * 0.001),
-                  child: Text("Pièces en stock: $piece",
+                  child: Text("Pièces en stock: $piece",maxLines: 2,overflow: TextOverflow.ellipsis,
                       style: customFonts(16, Colors.black, FontWeight.bold)),
                 ),
         ],

@@ -36,7 +36,7 @@ class UserProvider extends ChangeNotifier {
   String get errorMessage => _errorMessage;
   String get token => _token;
 
-  Future<void> signInUser(String nom, prenom, phone, bank, habitation, email,
+  Future<void> signInUser(String nom, prenom, phone, habitation, email,
       pass, identity) async {
     click();
     try {
@@ -47,7 +47,6 @@ class UserProvider extends ChangeNotifier {
       body["lieu_habitation"] = habitation;
       body["email"] = email;
       body["password"] = pass;
-      body["bank_card"] = bank;
 
       final formData = dio.FormData.fromMap(body);
 

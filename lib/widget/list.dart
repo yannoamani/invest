@@ -85,7 +85,7 @@ class _SuscribState extends State<Suscrib> {
               : packs!.isEmpty
                   ? Column(
                       mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
                         Text("Vous n'avez pas encore fait de souscription",
                             textAlign: TextAlign.center,

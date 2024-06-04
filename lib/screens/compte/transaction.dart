@@ -90,7 +90,7 @@ class _Transaction extends State<Transaction> {
                 color: Color.fromARGB(255, 0, 0, 0),
                 size: 25,
               )
-            : ListView.builder(
+            : operations.isEmpty ? const Center(child: Text("Aucune transaction",style: TextStyle(fontSize: 18),),) : ListView.builder(
                 physics: const BouncingScrollPhysics(),
                 padding: EdgeInsets.symmetric(horizontal: w * 0.02),
                 itemBuilder: ((context, index) => custonTransaction(
