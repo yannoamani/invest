@@ -22,6 +22,7 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     double h = MediaQuery.of(context).size.height;
     double w = MediaQuery.of(context).size.width;
+    print(w);
     context.read<PackProvider>().loadPack();
     return Consumer<PackProvider>(
       builder: (context, value, child) => Consumer<LoginInfo>(
@@ -149,7 +150,7 @@ class _HomeState extends State<Home> {
                               SliverGridDelegateWithFixedCrossAxisCount(
                                   crossAxisCount: 2,
                                   mainAxisSpacing: h * 0.014,
-                                  childAspectRatio: w <= 394.0 ? 0.65 : 1.1
+                                  childAspectRatio: w <= 414.0 ? 0.65 : 1.1
                                   ),
                           delegate: SliverChildBuilderDelegate(
                               (context, index) => GestureDetector(
